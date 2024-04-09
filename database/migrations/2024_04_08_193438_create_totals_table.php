@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('total_egreso');
             $table->decimal('total');
             $table->string('month');
+            $table->string('year');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

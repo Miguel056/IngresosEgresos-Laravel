@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('ingresos', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount');
-            $table->timestamp('registration_date');
+            $table->string('registration_date');
             $table->string('description');
             $table->string('month');
+            $table->string('year');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
