@@ -12,36 +12,38 @@ use Inertia\Inertia;
 
 class FinanzasController extends Controller
 {
-    public function readEgresos(){
-        $mes = "".date("F");
-        $year = "".date("Y");
+    public function readEgresos()
+    {
+        $mes = "" . date("F");
+        $year = "" . date("Y");
         $egresos = DB::table('egresos')
-        ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
-        ->get();
-        return Inertia::render('Egresos',['egresos' => $egresos]);
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        return Inertia::render('Egresos', ['egresos' => $egresos]);
     }
 
-    public function store(Request $request): RedirectResponse{
-        if($request->type == 0){
+    public function store(Request $request): RedirectResponse
+    {
+        if ($request->type == 0) {
             Ingreso::create([
                 'amount' => $request->amount,
                 'registration_date' => $request->date,
                 'description' => $request->description,
-                'month' => "".date("F"),
-                'year' => "".date("Y"),
+                'month' => "" . date("F"),
+                'year' => "" . date("Y"),
                 'user_id' => Auth::id()
             ]);
         }
-        if($request->type == 1){
+        if ($request->type == 1) {
             Egreso::create([
                 'amount' => $request->amount,
                 'registration_date' => $request->date,
                 'description' => $request->description,
-                'month' => "".date("F"),
-                'year' => "".date("Y"),
+                'month' => "" . date("F"),
+                'year' => "" . date("Y"),
                 'user_id' => Auth::id()
             ]);
         }
-        return redirect(route('registro', absolute:false));
+        return redirect(route('registro', absolute: false));
     }
 }

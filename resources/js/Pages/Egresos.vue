@@ -37,7 +37,16 @@ const formatearMonto = (monto) => {
                     <tbody>
                         <tr class="border-b" v-for="egreso in egresos">
                             <td class="px-6 py-4">
-                                {{ new Date(egreso.registration_date + ",01:00:00").toLocaleString("default", { month: "long", year: "numeric", day: "numeric", timezone: "UTC" }) }}
+                                {{
+                                    new Date(
+                                        egreso.registration_date + ",01:00:00"
+                                    ).toLocaleString("default", {
+                                        month: "long",
+                                        year: "numeric",
+                                        day: "numeric",
+                                        timezone: "UTC",
+                                    })
+                                }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ egreso.description }}

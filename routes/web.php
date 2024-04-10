@@ -18,13 +18,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/registro', function() {
+Route::get('/registro', function () {
     return Inertia::render('Registro');
-})->middleware(['auth','verified'])->name('registro');
+})->middleware(['auth', 'verified'])->name('registro');
 
 Route::get('/egresos', function () {
     return Inertia::render('Egresos');
-})->middleware(['auth','verified'])->name('egresos');
+})->middleware(['auth', 'verified'])->name('egresos');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,4 +32,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
