@@ -4,13 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Egreso;
 use App\Models\Ingreso;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class FinanzasController extends Controller
 {
+    public function readEgresos(){
+        $mes = "".date("F");
+        $year = "".date("Y");
+        $egresos = DB::table('egresos')
+        ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+        ->get();
+        return Inertia::render('Egresos',['egresos' => $egresos]);
+    }
+
     public function store(Request $request): RedirectResponse{
         if($request->type == 0){
             Ingreso::create([

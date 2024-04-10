@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('finanzasRegistro', [FinanzasController::class, 'store'])->name('fin.store');
 
+    Route::get('egresos', [FinanzasController::class,'readEgresos'])->name('fin.read.egresos');
+
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
                 ->middleware(['signed', 'throttle:6,1'])
                 ->name('verification.verify');
