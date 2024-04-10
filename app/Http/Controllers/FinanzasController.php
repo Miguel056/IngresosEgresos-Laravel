@@ -22,6 +22,16 @@ class FinanzasController extends Controller
         return Inertia::render('Egresos', ['egresos' => $egresos]);
     }
 
+    public function readIngresos()
+    {
+        $mes = "" . date("F");
+        $year = "" . date("Y");
+        $ingresos = DB::table('ingresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        return Inertia::render('Ingresos', ['ingresos' => $ingresos]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         if ($request->type == 0) {

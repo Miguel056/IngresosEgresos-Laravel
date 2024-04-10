@@ -26,6 +26,10 @@ Route::get('/egresos', function () {
     return Inertia::render('Egresos');
 })->middleware(['auth', 'verified'])->name('egresos');
 
+Route::get('/ingresos', function () {
+    return Inertia::render('Ingresos');
+})->middleware(['auth', 'verified'])->name('ingresos');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
