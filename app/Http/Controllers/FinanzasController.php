@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EgresosEvent;
+use App\Events\IngresosEvent;
 use App\Models\Egreso;
 use App\Models\Ingreso;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +37,7 @@ class FinanzasController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if ($request->type == 0) {
-            Ingreso::create([
+            $ingreso = Ingreso::create([
                 'amount' => $request->amount,
                 'registration_date' => $request->date,
                 'description' => $request->description,
@@ -43,9 +45,10 @@ class FinanzasController extends Controller
                 'year' => "" . date("Y"),
                 'user_id' => Auth::id()
             ]);
+            IngresosEvent::dispatch($ingreso);
         }
         if ($request->type == 1) {
-            Egreso::create([
+            $egreso = Egreso::create([
                 'amount' => $request->amount,
                 'registration_date' => $request->date,
                 'description' => $request->description,
@@ -53,6 +56,7 @@ class FinanzasController extends Controller
                 'year' => "" . date("Y"),
                 'user_id' => Auth::id()
             ]);
+            EgresosEvent::dispatch($egreso);
         }
         return redirect(route('registro', absolute: false));
     }
