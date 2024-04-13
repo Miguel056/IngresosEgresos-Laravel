@@ -10,6 +10,7 @@ const form = useForm({
     description: "",
     date: "",
     type: 0,
+    file: null,
 });
 
 const submit = () => {
@@ -36,7 +37,11 @@ const submit = () => {
                 class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
             >
                 <div class="py-6">
-                    <form @submit.prevent="submit">
+                    <form
+                        @submit.prevent="submit"
+                        enctype="multipart/form-data"
+                        method="POST"
+                    >
                         <div>
                             <InputLabel
                                 for="type"
@@ -89,6 +94,23 @@ const submit = () => {
                                 name="registration_date"
                             />
                         </div>
+
+                        <div class="mt-4" v-if="form.type == 1">
+                            <InputLabel
+                                for="date"
+                                value="Comprobante de egreso"
+                            />
+                            <input
+                                id="file"
+                                type="file"
+                                class="mt-1 block w-full"
+                                autofocus
+                                name="file"
+                                @input="form.file = $event.target.files[0]"
+                                accept=".jpg, .jpeg, .png, .pdf, .gif, .tiff"
+                            />
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <PrimaryButton
                                 class="ms-4"

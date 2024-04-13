@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\EgresosEvent;
 use App\Events\IngresosEvent;
+use App\Http\Requests\FinanzasRequest;
 use App\Models\Egreso;
 use App\Models\Ingreso;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +35,7 @@ class FinanzasController extends Controller
         return Inertia::render('Ingresos', ['ingresos' => $ingresos]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(FinanzasRequest $request): RedirectResponse
     {
         if ($request->type == 0) {
             $ingreso = Ingreso::create([
@@ -48,12 +49,20 @@ class FinanzasController extends Controller
             IngresosEvent::dispatch($ingreso);
         }
         if ($request->type == 1) {
+            if ($request->hasFile('file')) {
+                $file_name =  time() . '.' . $request->file->extension();
+                $request->file->storeAs('public/egresos', $file_name);
+                $file_uri = "storage/egresos/" . $file_name;
+            } else {
+                $file_uri = NULL;
+            }
             $egreso = Egreso::create([
                 'amount' => $request->amount,
                 'registration_date' => $request->date,
                 'description' => $request->description,
                 'month' => "" . date("F"),
                 'year' => "" . date("Y"),
+                'file_uri' =>  $file_uri,
                 'user_id' => Auth::id()
             ]);
             EgresosEvent::dispatch($egreso);

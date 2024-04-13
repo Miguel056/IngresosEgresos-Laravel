@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('month');
             $table->string('year');
+            $table->string('file_uri')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

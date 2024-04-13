@@ -32,6 +32,7 @@ const formatearMonto = (monto) => {
                             </th>
                             <th scope="col" class="px-6 py-3">Descripción</th>
                             <th scope="col" class="px-6 py-3">Monto</th>
+                            <th scope="col" class="px-6 py-3">Comprobante</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +54,15 @@ const formatearMonto = (monto) => {
                             </td>
                             <td class="px-6 py-4">
                                 {{ formatearMonto(egreso.amount) }}
+                            </td>
+                            <td
+                                class="px-6 py-4"
+                                v-if="egreso.file_uri === null"
+                            >
+                                No hay información
+                            </td>
+                            <td class="px-6 py-4" v-else>
+                                {{ egreso.file_uri }}
                             </td>
                         </tr>
                     </tbody>

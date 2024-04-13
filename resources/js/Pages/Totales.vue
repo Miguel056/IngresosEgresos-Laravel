@@ -114,8 +114,11 @@ const formatearMonto = (monto) => {
                 </div>
             </div>
         </div>
-        <div v-else>
-            <p>No hay info</p>
+        <div v-else class="mt-6 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+            <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+                <p class="mb-3 text-lg text-gray-500 md:text-xl dark:text-black">No hay información registrada para el periodo de: {{ new Date().toLocaleString("default", { month: "long" }) }}
+                {{ new Date().getFullYear() }}</p>
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>
