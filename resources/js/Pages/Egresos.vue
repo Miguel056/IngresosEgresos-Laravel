@@ -1,6 +1,7 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 defineProps({
     egresos: Array,
 });
@@ -62,7 +63,13 @@ const formatearMonto = (monto) => {
                                 No hay información
                             </td>
                             <td class="px-6 py-4" v-else>
-                                {{ egreso.file_uri }}
+                                <Link
+                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    :href="
+                                        route('see.document', [egreso.file_uri])
+                                    "
+                                    >Ver documento</Link
+                                >
                             </td>
                         </tr>
                     </tbody>

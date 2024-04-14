@@ -8,7 +8,6 @@ use App\Http\Requests\FinanzasRequest;
 use App\Models\Egreso;
 use App\Models\Ingreso;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -52,9 +51,8 @@ class FinanzasController extends Controller
             if ($request->hasFile('file')) {
                 $file_name =  time() . '.' . $request->file->extension();
                 $request->file->storeAs('public/egresos', $file_name);
-                $file_uri = "storage/egresos/" . $file_name;
             } else {
-                $file_uri = NULL;
+                $file_name = NULL;
             }
             $egreso = Egreso::create([
                 'amount' => $request->amount,
@@ -62,7 +60,7 @@ class FinanzasController extends Controller
                 'description' => $request->description,
                 'month' => "" . date("F"),
                 'year' => "" . date("Y"),
-                'file_uri' =>  $file_uri,
+                'file_uri' =>  $file_name,
                 'user_id' => Auth::id()
             ]);
             EgresosEvent::dispatch($egreso);

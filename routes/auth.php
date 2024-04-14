@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\FinanzasController;
 use App\Http\Controllers\TotalController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::get('ingresos', [FinanzasController::class, 'readIngresos'])->name('fin.read.ingresos');
 
     Route::get('totales', [TotalController::class, 'readTotal'])->name('tot.read');
+
+    Route::get('documento/{url}',[DocumentoController::class,'seeDocument'])->name('see.document');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
