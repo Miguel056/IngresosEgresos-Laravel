@@ -3,6 +3,7 @@ import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 defineProps({
     totales: Array,
+    egresos: Array,
 });
 const formatearMonto = (monto) => {
     var formatter = new Intl.NumberFormat("en-US", {
@@ -112,12 +113,57 @@ const formatearMonto = (monto) => {
                         </p>
                     </div>
                 </div>
+                <div v-if="egresos.length >= 1" class="mt-6 border-2 border-fuchsia-800 sm:rounded-lg">
+                    <div
+                        class="mt-6 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100"
+                    >
+                        <div
+                            class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+                        >
+                            <h3>Top 5 de sus egresos.</h3>
+                        </div>
+                    </div>
+                    <table class="w-full text-sm text-left rtl:text-right mt-5">
+                        <thead class="text-xs uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">#</th>
+                                <th scope="col" class="px-6 py-3">
+                                    Descripción
+                                </th>
+                                <th scope="col" class="px-6 py-3">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b" v-for="(egreso, i) in egresos">
+                                <td class="px-6 py-4">{{ i + 1 }}</td>
+                                <td class="px-6 py-4">
+                                    {{ egreso.description }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ formatearMonto(egreso.amount) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div v-else class="mt-6 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                <p class="mb-3 text-lg text-gray-500 md:text-xl dark:text-black">No hay información registrada para el periodo de: {{ new Date().toLocaleString("default", { month: "long" }) }}
-                {{ new Date().getFullYear() }}</p>
+        <div
+            v-else
+            class="mt-6 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100"
+        >
+            <div
+                class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg"
+            >
+                <p
+                    class="mb-3 text-lg text-gray-500 md:text-xl dark:text-black"
+                >
+                    No hay información registrada para el periodo de:
+                    {{
+                        new Date().toLocaleString("default", { month: "long" })
+                    }}
+                    {{ new Date().getFullYear() }}
+                </p>
             </div>
         </div>
     </AuthenticatedLayout>

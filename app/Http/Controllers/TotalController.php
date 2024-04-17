@@ -16,6 +16,11 @@ class TotalController extends Controller
         $totales = DB::table('totals')
             ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
             ->get();
-        return Inertia::render('Totales', ['totales' => $totales]);
+        $gastos = DB::table('egresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->orderBy('amount', 'desc')
+            ->limit(5)
+            ->get();
+        return Inertia::render('Totales', ['totales' => $totales, 'egresos' => $gastos]);
     }
 }
