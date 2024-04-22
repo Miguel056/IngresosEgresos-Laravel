@@ -14,6 +14,16 @@ use Inertia\Inertia;
 
 class FinanzasController extends Controller
 {
+    public function sinIva()
+    {
+        $mes = "" . date("F");
+        $year = "" . date("Y");
+        $egresos = DB::table('egresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        return Inertia::render('SinIVA', ['egresos' => $egresos]);
+    }
+
     public function readEgresos()
     {
         $mes = "" . date("F");

@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ingresos', [FinanzasController::class, 'readIngresos'])->name('fin.read.ingresos');
 
+    Route::get('iva',[FinanzasController::class,'sinIva'])->name('fin.no.iva');
+
     Route::get('totales', [TotalController::class, 'readTotal'])->name('tot.read');
 
     Route::get('documento/{url}',[DocumentoController::class,'seeDocument'])->name('see.document');
