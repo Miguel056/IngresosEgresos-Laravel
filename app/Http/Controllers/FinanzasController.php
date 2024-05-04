@@ -11,9 +11,74 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class FinanzasController extends Controller
 {
+    public function mes($month)
+    {
+        $mes = "";
+        switch ($month) {
+            case "january":
+                $mes = "Enero";
+                break;
+            case "february":
+                $mes = "Febrero";
+                break;
+            case "march":
+                $mes = "Marzo";
+                break;
+            case "april":
+                $mes = "Abril";
+                break;
+            case "may":
+                $mes = "Mayo";
+                break;
+            case "june":
+                $mes = "Junio";
+                break;
+            case "july":
+                $mes = "Julio";
+                break;
+            case "august":
+                $mes = "Agosto";
+                break;
+            case "september":
+                $mes = "Septiembre";
+                break;
+            case "october":
+                $mes = "Octubre";
+                break;
+            case "november":
+                $mes = "Noviembre";
+                break;
+            case "december":
+                $mes = "Diciembre";
+                break;
+        }
+        return $mes;
+    }
+
+    public function preSeeHistorial()
+    {
+        return Inertia::render('PreHistorial');
+    }
+
+    public function seeHistorial(Request $request)
+    {
+        $mes = $this->mes($request->month);
+        $ingresos = DB::table('ingresos')
+            ->where([['month', $request->month], ['year', $request->year], ['user_id', "=", Auth::id()]])
+            ->get();
+        $egresos = DB::table('egresos')
+            ->where([['month', $request->month], ['year', $request->year], ['user_id', "=", Auth::id()]])
+            ->get();
+        $totales = DB::table('totals')
+            ->where([['month', $request->month], ['year', $request->year], ['user_id', "=", Auth::id()]])
+            ->get();
+        return Inertia::render('Historial', ['ingresos' => $ingresos, 'egresos' => $egresos, 'mes' => $mes, 'year' => $request->year, 'totales' => $totales]);
+    }
+
     public function sinIva()
     {
         $mes = "" . date("F");

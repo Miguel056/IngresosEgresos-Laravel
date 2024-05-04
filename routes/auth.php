@@ -54,6 +54,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('documento/{url}',[DocumentoController::class,'seeDocument'])->name('see.document');
 
+    Route::post('/historial',[FinanzasController::class,'seeHistorial'])->name('see.historia');
+
+    Route::get('/preHistorial', [FinanzasController::class,'preSeeHistorial'])->name('see.historialB');
+
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');

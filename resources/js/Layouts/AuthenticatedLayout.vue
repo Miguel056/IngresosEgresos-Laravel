@@ -54,6 +54,13 @@ const showingNavigationDropdown = ref(false);
                                     Egresos sin IVA
                                 </NavLink>
                             </div>
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink :href="route('see.historialB')">
+                                    Historial
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -176,6 +183,11 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('fin.no.iva')">
                             Egresos sin IVA
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('see.historialB')">
+                            Historial
                         </ResponsiveNavLink>
                     </div>
 
