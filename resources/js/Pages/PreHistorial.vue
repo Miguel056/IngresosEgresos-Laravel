@@ -14,6 +14,11 @@ const submit = () => {
         onSuccess: () => form.reset,
     });
 };
+const getYear = (year) => {
+    return parseInt(year, 10);
+};
+const mes = new Date().getMonth();
+const yearA = new Date().getFullYear();
 </script>
 <template>
     <Head title="Historial" />
@@ -31,32 +36,6 @@ const submit = () => {
                     <form @submit.prevent="submit" method="POST">
                         <div>
                             <InputLabel
-                                for="month"
-                                value="Ingrese el mes a buscar"
-                            />
-                            <select
-                                name="month"
-                                id="month"
-                                v-model="form.month"
-                                class="mt-1 block w-full"
-                                required
-                            >
-                                <option value="january" selected>Enero</option>
-                                <option value="february">Febrero</option>
-                                <option value="march">Marzo</option>
-                                <option value="april">Abril</option>
-                                <option value="may">Mayo</option>
-                                <option value="june">Junio</option>
-                                <option value="july">Julio</option>
-                                <option value="august">Agosto</option>
-                                <option value="september">Septiembre</option>
-                                <option value="october">Octubre</option>
-                                <option value="november">Noviembre</option>
-                                <option value="december">Diciembre</option>
-                            </select>
-                        </div>
-                        <div class="mt-4">
-                            <InputLabel
                                 for="year"
                                 value="Ingrese el año a buscar"
                             />
@@ -67,7 +46,34 @@ const submit = () => {
                                 v-model="form.year"
                                 name="year"
                                 required
+                                
                             />
+                        </div>
+                        <div class="mt-4">
+                            <InputLabel
+                                for="month"
+                                value="Ingrese el mes a buscar"
+                            />
+                            <select
+                                name="month"
+                                id="month"
+                                v-model="form.month"
+                                class="mt-1 block w-full"
+                                required
+                            >
+                                <option value="january" v-if="0 < mes || getYear(form.year) < yearA">Enero</option>
+                                <option value="february" v-if="1 < mes || getYear(form.year) < yearA">Febrero</option>
+                                <option value="march" v-if="2 < mes || getYear(form.year) < yearA">Marzo</option>
+                                <option value="april" v-if="3 < mes || getYear(form.year) < yearA">Abril</option>
+                                <option value="may" v-if="4< mes || getYear(form.year) < yearA">Mayo</option>
+                                <option value="june" v-if="5 < mes || getYear(form.year) < yearA">Junio</option>
+                                <option value="july" v-if="6 < mes || getYear(form.year) < yearA">Julio</option>
+                                <option value="august" v-if="7 < mes || getYear(form.year) < yearA">Agosto</option>
+                                <option value="september" v-if="8 < mes || getYear(form.year) < yearA">Septiembre</option>
+                                <option value="october" v-if="9 < mes || getYear(form.year) < yearA">Octubre</option>
+                                <option value="november" v-if="10 < mes || getYear(form.year) < yearA">Noviembre</option>
+                                <option value="december" v-if="11 < mes || getYear(form.year) < yearA">Diciembre</option>
+                            </select>
                         </div>
                         <div class="mt-4 flex items-center justify-end">
                             <PrimaryButton
