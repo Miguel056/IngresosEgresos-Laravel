@@ -8,6 +8,7 @@ defineProps({
     mes: String,
     year: String,
     totales: Array,
+    mesI: String,
 });
 const formatearMonto = (monto) => {
     var formatter = new Intl.NumberFormat("en-US", {
@@ -28,6 +29,13 @@ const PDF = (month, year) => {
     };
     html2pdf().from(element).set(opt).save();
 };
+const getYear = (year) => {
+    return parseInt(year, 10);
+};
+
+const getMes = (mes, year) => {
+    return new Date(mes + year).getMonth();
+};
 </script>
 <template>
     <Head title="Historial" />
@@ -40,6 +48,10 @@ const PDF = (month, year) => {
         <div v-if="egresos.length >= 1 && ingresos.length >= 1">
             <div class="mt-4 flex sm:justify-center items-center">
                 <button
+                    v-if="
+                        !(getMes(mesI, year) == new Date().getMonth()) &&
+                        getYear(year) == new Date().getFullYear()
+                    "
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     @click="PDF(mes, year)"
                 >

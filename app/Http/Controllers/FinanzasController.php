@@ -15,53 +15,27 @@ use Illuminate\Http\Request;
 
 class FinanzasController extends Controller
 {
-    public function mes($month)
-    {
-        $mes = "";
-        switch ($month) {
-            case "january":
-                $mes = "Enero";
-                break;
-            case "february":
-                $mes = "Febrero";
-                break;
-            case "march":
-                $mes = "Marzo";
-                break;
-            case "april":
-                $mes = "Abril";
-                break;
-            case "may":
-                $mes = "Mayo";
-                break;
-            case "june":
-                $mes = "Junio";
-                break;
-            case "july":
-                $mes = "Julio";
-                break;
-            case "august":
-                $mes = "Agosto";
-                break;
-            case "september":
-                $mes = "Septiembre";
-                break;
-            case "october":
-                $mes = "Octubre";
-                break;
-            case "november":
-                $mes = "Noviembre";
-                break;
-            case "december":
-                $mes = "Diciembre";
-                break;
-        }
-        return $mes;
-    }
-
     public function preSeeHistorial()
     {
         return Inertia::render('PreHistorial');
+    }
+
+    public function historialActual()
+    {
+        $mes = "" . date("F");
+        $year = "" . date("Y");
+        $mesI = strtolower($mes);
+        $mesA = $this->mes($mesI);
+        $egresos = DB::table('egresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        $ingresos = DB::table('ingresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        $totales = DB::table('totals')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        return Inertia::render('Historial', ['ingresos' => $ingresos, 'egresos' => $egresos, 'mes' => $mesA, 'year' => $year, 'totales' => $totales, 'mesI' => $mesI]);
     }
 
     public function seeHistorial(Request $request)
@@ -76,7 +50,7 @@ class FinanzasController extends Controller
         $totales = DB::table('totals')
             ->where([['month', $request->month], ['year', $request->year], ['user_id', "=", Auth::id()]])
             ->get();
-        return Inertia::render('Historial', ['ingresos' => $ingresos, 'egresos' => $egresos, 'mes' => $mes, 'year' => $request->year, 'totales' => $totales]);
+        return Inertia::render('Historial', ['ingresos' => $ingresos, 'egresos' => $egresos, 'mes' => $mes, 'year' => $request->year, 'totales' => $totales, 'mesI' => $request->month]);
     }
 
     public function sinIva()
@@ -141,5 +115,49 @@ class FinanzasController extends Controller
             EgresosEvent::dispatch($egreso);
         }
         return redirect(route('registro', absolute: false));
+    }
+
+    public function mes($month)
+    {
+        $mes = "";
+        switch ($month) {
+            case "january":
+                $mes = "Enero";
+                break;
+            case "february":
+                $mes = "Febrero";
+                break;
+            case "march":
+                $mes = "Marzo";
+                break;
+            case "april":
+                $mes = "Abril";
+                break;
+            case "may":
+                $mes = "Mayo";
+                break;
+            case "june":
+                $mes = "Junio";
+                break;
+            case "july":
+                $mes = "Julio";
+                break;
+            case "august":
+                $mes = "Agosto";
+                break;
+            case "september":
+                $mes = "Septiembre";
+                break;
+            case "october":
+                $mes = "Octubre";
+                break;
+            case "november":
+                $mes = "Noviembre";
+                break;
+            case "december":
+                $mes = "Diciembre";
+                break;
+        }
+        return $mes;
     }
 }

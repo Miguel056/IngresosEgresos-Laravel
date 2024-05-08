@@ -48,15 +48,17 @@ Route::middleware('auth')->group(function () {
 
     Route::get('ingresos', [FinanzasController::class, 'readIngresos'])->name('fin.read.ingresos');
 
-    Route::get('iva',[FinanzasController::class,'sinIva'])->name('fin.no.iva');
+    Route::get('iva', [FinanzasController::class, 'sinIva'])->name('fin.no.iva');
 
     Route::get('totales', [TotalController::class, 'readTotal'])->name('tot.read');
 
-    Route::get('documento/{url}',[DocumentoController::class,'seeDocument'])->name('see.document');
+    Route::get('documento/{url}', [DocumentoController::class, 'seeDocument'])->name('see.document');
 
-    Route::post('/historial',[FinanzasController::class,'seeHistorial'])->name('see.historia');
+    Route::post('/historial', [FinanzasController::class, 'seeHistorial'])->name('see.historia');
 
-    Route::get('/preHistorial', [FinanzasController::class,'preSeeHistorial'])->name('see.historialB');
+    Route::get('/historialActual', [FinanzasController::class, 'historialActual'])->name('see.actual');
+
+    Route::get('/preHistorial', [FinanzasController::class, 'preSeeHistorial'])->name('see.historialB');
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
