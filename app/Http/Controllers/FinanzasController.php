@@ -7,14 +7,43 @@ use App\Events\IngresosEvent;
 use App\Http\Requests\FinanzasRequest;
 use App\Models\Egreso;
 use App\Models\Ingreso;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class FinanzasController extends Controller
 {
+    public function ordenarDatos()
+    {
+        $mes = "" . date("F");
+        $year = "" . date("Y");
+        $mesI = strtolower($mes);
+        $mesA = $this->mes($mesI);
+        $egresos = DB::table('egresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        $ingresos = DB::table('ingresos')
+            ->where([['month', $mes], ['year', $year], ['user_id', "=", Auth::id()]])
+            ->get();
+        foreach ($egresos as $egreso) {
+            $egreso->amount = $egreso->amount * -1;
+        }
+        $datos = $ingresos->concat($egresos);
+        foreach ($datos as $dato) {
+            $dato->registration_date = Carbon::parse($dato->registration_date)->format('Y-m-d');
+        }
+        $ordenados = $datos->sortBy('registration_date');
+        $array = Collection::make();
+        foreach ($ordenados as $orden) {
+            $array->push($orden);
+        }
+        return Inertia::render('Mayores', ['ordenados' => $array, 'mes' => $mesA, 'year' => $year]);
+    }
+
     public function preSeeHistorial()
     {
         return Inertia::render('PreHistorial');

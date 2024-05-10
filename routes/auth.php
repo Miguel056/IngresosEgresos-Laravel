@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/preHistorial', [FinanzasController::class, 'preSeeHistorial'])->name('see.historialB');
 
+    Route::get('/rayado', [FinanzasController::class, 'ordenarDatos'])->name('see.mayores');
+
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
